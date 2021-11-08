@@ -1,0 +1,34 @@
+Aim of this article is to scrape news articles from different websites using Python. Generally, web scraping involves accessing numerous websites and collecting data from them. However, we can limit ourselves to collect large amounts of information from a single source and use it as a dataset.
+Web Scraping is a technique employed to extract large amounts of data from websites whereby the data is extracted and saved to a local file in your computer or to a database in table (spreadsheet) format.
+So, I get motivated to do web scraping while working on my Machine-Learning project on Fake News Detection System. Whenever we begin a machine learning project, the first thing that we need is a dataset. While there are many datasets that you can find online with varied information, sometimes you wish to extract data on your own and begin your own investigation. I was needed with a dataset that I couldn’t able to find anywhere according to my need.
+So this motivated me to make my own Dataset for my project accordingly. And that’s how I did my project from the scratch. My Project was basically based on classifying different news articles into two main categories FAKE & REAL.
+FAKE-NEWS DATASET
+For this project, The first task was to get a dataset which is already labeled with “FAKE”, so this can be achieved by scraping data from some verified & certified news websites, on which we can rely on for fact of news articles and it is really a very difficult task to get genuine “FAKE NEWS”.
+I go through these news websites to get my FAKE-NEWS Dataset
+Boom Live
+Snopes
+Politifact
+AllSides
+But honestly speaking, I end up scraping data from one website i.e., Politifact.
+And there is a strong reason to do so, As you go through the listed links up there, you will conclude that we needed a dataset with already labeled category i.e., “FAKE” but also we don’t want our news articles to be in a modified form as such. We want to extract a raw news article without any keywords specifying whether the given news article in a dataset is “FAKE” or not.
+So for example, If you go through the link “BoomLive.in”, you will find that the news articles specifying “FAKE” are not in its actual form and altered on basis of some analysis of the fact-checking team. So this altered text on model training in ML will give us a biased result every time and the model that we made using this kind of dataset will result into a dumb one which can only predict news articles having keywords like “FAKE”, “DID?”, “IS?” in it and will not be going to perform well on a new testing set of data.
+That’s why we use Politifact to scrape our “FAKE-NEWS DATASET”.
+REAL-NEWS DATASET
+The second task was to create a “REAL-NEWS” dataset, So that was easy if you are scraping news-articles from trusted or verified news websites like “TOI”, “IndiaToday”, “TheHindu” & so many…So we can trust these websites that they are listing the factual/actual data and even if not, then we are assuming the same to be true and will train our model accordingly.
+But for my project, I scrape data for real and fake from one website only (i.e., Politifact.com), since I am getting what I needed from it, and also it is advisable when we are scraping data using python to use only one website at a time. Although you can scrape multiple pages of that particular website altogether in one module by just running an outer for loop.
+WHO SHOULD READ THIS ARTICLE?
+Whoever is working on some projects where you need to scrape data in thousands, this article is definitely for you 😃. It doesn’t matter if you are from a programming background or not, because there are many times when people other than programmers from different backgrounds needed data as per their project, survey, or whatsoever purpose.
+But non-programmers find it difficult to understand any programming language, So I will make scrapping easy for them too by introducing some software from which they can scrape any kind of data in a huge amount easily.
+Although Scraping using python is not that difficult if you follow along with me while reading this blog, the only thing that you need to focus on is the HTML source code of a webpage. Once, you able to understand how webpages are written in HTML and able to identify attributes and elements of your interest, you can scrape any website.
+For non-programmers, if you want to do web-scraping using python, just focus on HTML code mainly, python syntax is not that difficult to understand, It’s just some libraries, some functions, and keywords that you needed to remember and understand. So I tried to explain every step with transparency, I hope at the end of this series, you will be able to scrape different types of the layout of webpages.
+OVERVIEW
+This post covers the first part: News articles web scraping using PYTHON. We’ll create a script that scrapes the latest news articles from different newspapers and stores the text, which will be fed into the model afterward to get a prediction of its category.
+A brief introduction to webpage design and HTML:
+If we want to be able to extract news articles (or, in fact, any other kind of text) from a website, the first step is to know how a website works.
+We will follow an example to understand this:
+When we insert an URL into the web browser (i.e. Google Chrome, Firefox, etc…) and access to it, what we see is the combination of three technologies:
+HTML (HyperText Markup Language): it is the standard language for adding content to a website. It allows us to insert text, images, and other things to our site. In one word, HTML defines the content of every webpage on the internet.
+CSS (Cascading Style Sheets): this language allows us to set the visual design of a website. This means it determines the style/presentation of a webpage including colors, layouts, and fonts.
+JavaScript: JavaScript is a dynamic computer programming language. It allows us to make the content and the style interactive & provides a dynamic interface between client-side script and user.
+Note that these three are programming languages. They will allow us to create and manipulate every aspect of the design of a webpage.
+Let’s illustrate these concepts with an example. When we visit the Politifact page, we see the following:
