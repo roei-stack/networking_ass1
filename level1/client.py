@@ -14,7 +14,7 @@ FILE_NAME = sys.argv[3]
 if not os.path.isfile(FILE_NAME):
     raise ValueError('Error: Invalid file name/path')
 
-socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 file = open(FILE_NAME, "r")
 
 chunk = ''
@@ -25,8 +25,8 @@ while True:
         break
     received = b''
     while received != chunk:
-        socket.sendto(chunk, ADDRESS)
-        received, address = socket.recvfrom(MSS + 1)
+        sock.sendto(chunk, ADDRESS)
+        received, address = sock.recvfrom(MSS + 1)
 
 file.close()
-socket.close()
+sock.close()
