@@ -54,7 +54,7 @@ def main():
         sent += 1
 
     file.close()
-    socket.close()
+    sock.close()
 ### end of main
 
 if __name__ == "__main__":
