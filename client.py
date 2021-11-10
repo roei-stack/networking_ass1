@@ -2,21 +2,31 @@ import os.path
 import socket
 import sys
 
-# todo add system arguments
-serverIp = "127.0.0.1"
-serverPort = 12345
-filename = "vvvv"
+MAX_FILE_SIZE = 50000
+MSS = 100
 
-if not os.path.isfile(filename):
-    raise ValueError('Error: Invalid file path')
-# opening the file
-file = open(filename, "r")
+SERVER_IP = sys.argv[1]
+SERVER_PORT = int(sys.argv[2])
+ADDRESS = (SERVER_IP, SERVER_PORT)
+FILE_NAME = sys.argv[3]
 
-# opening udp socket
+# making sure the file name given exists
+if not os.path.isfile(FILE_NAME):
+    raise ValueError('Error: Invalid file name/path')
+
 socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+file = open(FILE_NAME, "r")
 
+chunk = ''
 while True:
+    # encoding a string adds 2 bytes to it's length
+    chunk = bytes(file.read(MSS), encoding='utf-8')
+    if not chunk:
+        break
+    received = b''
+    while received != chunk:
+        socket.sendto(chunk, ADDRESS)
+        received, address = socket.recvfrom(MSS + 1)
 
-
-
+file.close()
 socket.close()
