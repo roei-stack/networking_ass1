@@ -42,6 +42,7 @@ def main():
     while chunk := bytes(file.read(MSS - 4), encoding='ascii'):
         toSend = bytes(sent) + chunk
         send(toSend, sock)
+        sent += 1
 
     file.close()
     socket.close()
