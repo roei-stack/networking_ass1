@@ -20,10 +20,11 @@ def send(toSend: bytes, sock: socket):
         try:
             data, _ = sock.recvfrom(MSS)
             # ignoring confirmations for previous packages
-            while int(data[0:4]) < int(toSend[0:4]):
+            while int.from_bytes(data[0:4], sys.byteorder) < int.from_bytes(toSend[0:4], sys.byteorder):
                 data, _ = sock.recvfrom(MSS)
             if data == toSend:
                 accepted = True
+                print('ACK --- ', data[0:4], '!   ====> \"' + str(data[4::]) + '\"')
         except socket.timeout:
             pass
 
@@ -40,12 +41,13 @@ def main():
 
     file = open(FILE_NAME, "r")
 
-    while chunk := bytes(f'{sent:04d}', encoding='ascii') + bytes(file.read(MSS - 4), encoding='ascii'):
+    while chunk := bytes(file.read(MSS - 4), encoding='ascii'):
+        chunk = bytes(f'{sent:04d}', encoding='ascii') + chunk
         send(chunk, sock)
         sent += 1
 
     file.close()
-    socket.close()
+    sock.close()
 
 
 # end of main

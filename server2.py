@@ -24,10 +24,10 @@ def main():
     while True:
         data, address = s.recvfrom(BUFFER_LEN)
         # the first 4 bytes are int which represent the serial number of this packege.
-        num = int(data[0:4])
-        if num == printed + 1:
-            print(str(data))
-            printed = num
+        num = int.from_bytes(data[0:4], sys.byteorder)
+        if num == printed:
+            print(str(data), end='')
+            printed += 1
         # sending back to the client
         try:
             s.sendto(data, address)
