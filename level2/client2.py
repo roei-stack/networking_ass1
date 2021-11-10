@@ -10,7 +10,7 @@ SERVER_PORT = int(sys.argv[2])
 ADDRESS = (SERVER_IP, SERVER_PORT)
 FILE_NAME = sys.argv[3]
 
-def send(toSend, sock):
+def send(toSend: bytes, sock: socket):
     accepted = False
     sock.settimeout(1)
 
