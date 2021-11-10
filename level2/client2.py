@@ -32,7 +32,7 @@ def send(toSend: bytes, sock: socket):
         try:
             data, _ = sock.recvfrom(MSS)
             # ignoring confirmations for privius packages
-            while int(data[0:4]) < int(toSend[0:4]):
+            while int.from_bytes(data[0:4], byteorder='little') < int.from_bytes(toSend[0:4], byteorder='little'):
                 data, _ = sock.recvfrom(MSS)
             accepted = True
         except socket.timeout:
@@ -49,7 +49,7 @@ def main():
     sent = 0
     while chunk := bytes(file.read(MSS - 4), encoding='ascii'):
         # adding the serial number to the start of the packege
-        toSend = bytes(sent) + chunk
+        toSend = sent.to_bytes(4, byteorder='little') + chunk
         send(toSend, sock)
         sent += 1
 

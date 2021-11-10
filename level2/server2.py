@@ -23,7 +23,7 @@ def main():
     while True:
         data, address = s.recvfrom(BUFFER_LEN)
         # the first 4 bytes are int which represent the serial number of this packege.
-        num = int(data[0:4])
+        num = int.from_bytes(data[0:4], byteorder='little')
         if num > printed:
             print(str(data[4::]))
             printed = num
