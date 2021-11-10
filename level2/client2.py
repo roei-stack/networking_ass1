@@ -10,6 +10,7 @@ SERVER_PORT = int(sys.argv[2])
 ADDRESS = (SERVER_IP, SERVER_PORT)
 FILE_NAME = sys.argv[3]
 
+
 def send(toSend: bytes, sock: socket):
     accepted = False
     sock.settimeout(1)
@@ -18,13 +19,13 @@ def send(toSend: bytes, sock: socket):
         sock.sendto(toSend, ADDRESS)
         try:
             data, _ = sock.recvfrom(MSS)
-            # ignoring confirmations for privius packages
+            # ignoring confirmations for previous packages
             while int(data[0:4]) < int(toSend[0:4]):
                 data, _ = sock.recvfrom(MSS)
-            accepted = True
+            if data == toSend:
+                accepted = True
         except socket.timeout:
             pass
-
 
 
 def main():
@@ -39,14 +40,15 @@ def main():
 
     file = open(FILE_NAME, "r")
 
-    while chunk := bytes(file.read(MSS - 4), encoding='ascii'):
-        toSend = bytes(sent) + chunk
-        send(toSend, sock)
+    while chunk := bytes(f'{sent:04d}', encoding='ascii') + bytes(file.read(MSS - 4), encoding='ascii'):
+        send(chunk, sock)
         sent += 1
 
     file.close()
     socket.close()
-### end of main
+
+
+# end of main
 
 if __name__ == "__main__":
     main()

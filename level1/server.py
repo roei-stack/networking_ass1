@@ -3,9 +3,10 @@ import sys
 
 BUFFER_LEN = 127
 
+
 def main():
     try:
-        PORT = int(sys.argv[1]) # argv[1] is our port
+        PORT = int(sys.argv[1])  # argv[1] is our port, 12345
     except:
         print("invalid port")
         return
@@ -16,7 +17,7 @@ def main():
     except:
         print("error binding to port")
         return
-    
+
     while True:
         data, address = s.recvfrom(BUFFER_LEN)
         print(str(data))
@@ -25,7 +26,8 @@ def main():
         except:
             print("error sending")
             return
-# end of main
 
+
+# end of main
 if __name__ == "__main__":
     main()
