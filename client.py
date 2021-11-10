@@ -20,7 +20,7 @@ file = open(FILE_NAME, "r")
 chunk = ''
 while True:
     # encoding a string adds 2 bytes to it's length
-    chunk = bytes(file.read(MSS), encoding='utf-8')
+    chunk = bytes(file.read(MSS), encoding='ascii')
     if not chunk:
         break
     received = b''
