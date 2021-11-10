@@ -26,7 +26,7 @@ def main():
         # the first 4 bytes are int which represent the serial number of this packege.
         num = int.from_bytes(data[0:4], sys.byteorder)
         if num == printed:
-            print(str(data), end='')
+            print(str(data)[4:], end='')
             printed += 1
         # sending back to the client
         try:
