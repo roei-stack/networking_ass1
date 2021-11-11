@@ -48,10 +48,10 @@ def main():
     # keeping track of how much we sent
     sent = 0
     while chunk := bytes(file.read(MSS - 4), encoding='ascii'):
+        sent += 1
         # adding the serial number to the start of the packege. (4 bytes for sent is enough because the max file size is only 50kb)
         toSend = sent.to_bytes(4, byteorder='little') + chunk
         send(toSend, sock)
-        sent += 1
 
     file.close()
     sock.close()
