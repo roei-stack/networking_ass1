@@ -5,30 +5,41 @@ import sys
 MAX_FILE_SIZE = 50000
 MSS = 100
 
+# port check
 SERVER_PORT = 0
 try:
     SERVER_PORT = int(sys.argv[1])
-except:
-    print("invalid port number")
+except Exception as e:
+    print('invalid port number')
+    print('Error info: ', e)
     exit(0)
+
+# no parsing, just asking
 SERVER_IP = sys.argv[2]
+try:
+    socket.inet_aton(SERVER_IP)
+except socket.error as e:
+    print('invalid ipv4 address')
+    print('Error info: ', e)
+    exit(0)
 ADDRESS = (SERVER_IP, SERVER_PORT)
-FILE_NAME = sys.argv[3]
+
 # making sure the file name given exists
+FILE_NAME = sys.argv[3]
 if not os.path.isfile(FILE_NAME):
-    print("invalid file path")
+    print(FILE_NAME, 'is an invalid file path/file name')
     exit(0)
 
 
 def send(toSend: bytes, sock: socket):
     accepted = False
     sock.settimeout(1)
-
     while not accepted:
         try:
             sock.sendto(toSend, ADDRESS)
-        except:
+        except Exception as ex:
             print("error sending, try again")
+            print('Error info: ', ex)
             exit(0)
         try:
             data, _ = sock.recvfrom(MSS)
@@ -54,7 +65,7 @@ def main():
         sent += 1
         # adding the serial number to the start of the package.
         # 4 bytes for sent is enough because the max file size is only 50kb
-        toSend = sent.to_bytes(4, byteorder='little') + chunk
+        toSend = sent.to_bytes(4, byteorder=sys.byteorder) + chunk
         send(toSend, sock)
     file.close()
     sock.close()
@@ -62,5 +73,5 @@ def main():
 
 # end of main
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
