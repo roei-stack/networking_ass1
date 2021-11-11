@@ -5,13 +5,13 @@ import sys
 MAX_FILE_SIZE = 50000
 MSS = 100
 
-SERVER_IP = sys.argv[1]
 SERVER_PORT = 0
 try:
-    SERVER_PORT = int(sys.argv[2])
+    SERVER_PORT = int(sys.argv[1])
 except:
     print("invalid port number")
     exit(0)
+SERVER_IP = sys.argv[2]
 ADDRESS = (SERVER_IP, SERVER_PORT)
 FILE_NAME = sys.argv[3]
 # making sure the file name given exists
